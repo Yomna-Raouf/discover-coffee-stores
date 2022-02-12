@@ -1,10 +1,20 @@
 import Head from "next/head";
+import Image from "next/image";
 
-import { Banner } from "@/components/molecules";
+import { Banner, Card } from "@/components/molecules";
+
+import CoffeeStores from "../data/coffee-stores.json";
 
 import styles from "@/styles/Home.module.css";
 
-export default function Home() {
+export async function getStaticProps(context) {
+  console.log("getStaticProps");
+  return {
+    props: { CoffeeStores },
+  };
+}
+
+export default function Home({ CoffeeStores }) {
   const getNearbyStores = () => {
     console.log("Helloooooz");
   };
@@ -22,6 +32,27 @@ export default function Home() {
           buttonLabel="View stores nearby"
           buttonHandler={getNearbyStores}
         />
+
+        <div className={styles.heroImage}>
+          <Image
+            alt="cofee"
+            src="/static/hero-image.png"
+            width={700}
+            height={400}
+          />
+        </div>
+
+        <div className={styles.cardLayout}>
+          {CoffeeStores?.map((CoffeeStore) => (
+            <Card
+              key={CoffeeStore.id}
+              name={CoffeeStore.name}
+              imgUrl={CoffeeStore.imgUrl}
+              href={`/coffee-store/${CoffeeStore.id}`}
+              className={styles.card}
+            />
+          ))}
+        </div>
       </main>
     </div>
   );
