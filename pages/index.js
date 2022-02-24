@@ -3,14 +3,14 @@ import Image from "next/image";
 
 import { Banner, Card } from "@/components/molecules";
 
-import CoffeeStores from "../data/coffee-stores.json";
+import CoffeeStoresData from "../data/coffee-stores.json";
 
 import styles from "@/styles/Home.module.css";
 
 export async function getStaticProps(context) {
   console.log("getStaticProps");
   return {
-    props: { CoffeeStores },
+    props: { CoffeeStores: CoffeeStoresData },
   };
 }
 
@@ -42,17 +42,22 @@ export default function Home({ CoffeeStores }) {
           />
         </div>
 
-        <div className={styles.cardLayout}>
-          {CoffeeStores?.map((CoffeeStore) => (
-            <Card
-              key={CoffeeStore.id}
-              name={CoffeeStore.name}
-              imgUrl={CoffeeStore.imgUrl}
-              href={`/coffee-store/${CoffeeStore.id}`}
-              className={styles.card}
-            />
-          ))}
-        </div>
+        {CoffeeStores.length > 0 && (
+          <>
+            <h2 className={styles.subHeading}>Tronto Stores</h2>
+            <div className={styles.cardLayout}>
+              {CoffeeStores?.map((CoffeeStore) => (
+                <Card
+                  key={CoffeeStore.id}
+                  name={CoffeeStore.name}
+                  imgUrl={CoffeeStore.imgUrl}
+                  href={`/coffee-store/${CoffeeStore.id}`}
+                  className={styles.card}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </main>
     </div>
   );
